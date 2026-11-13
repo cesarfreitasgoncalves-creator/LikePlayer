@@ -23,7 +23,6 @@ class AuralisPlaybackService : MediaSessionService() {
                 true
             )
         }
-
         mediaSession = MediaSession.Builder(this, exoPlayer!!).build()
     }
 
@@ -35,13 +34,7 @@ class AuralisPlaybackService : MediaSessionService() {
         super.onDestroy()
     }
 
-    override fun onTaskRemoved(rootIntent: Intent?) {
-        stopSelf()
-    }
-
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        return START_STICKY
-    }
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int = START_STICKY
 
     override fun onUpdateNotification(session: MediaSession, startInForeground: Boolean) {
         val notification = Notification.Builder(this, "auralis_channel")

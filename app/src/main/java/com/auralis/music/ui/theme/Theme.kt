@@ -31,8 +31,5 @@ private val AuralisLightColors = lightColorScheme(
 @Composable
 fun AuralisTheme(darkTheme: Boolean = true, content: @Composable () -> Unit) {
     val colorScheme = if (darkTheme) AuralisDarkColors else AuralisLightColors
-    MaterialTheme(
-        colorScheme = colorScheme,
-        content = content
-    )
+    MaterialTheme(colorScheme = colorScheme, content = content)
 }

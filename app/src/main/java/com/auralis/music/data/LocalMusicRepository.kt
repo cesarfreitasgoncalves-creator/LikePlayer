@@ -14,17 +14,15 @@ class LocalMusicRepository(private val context: Context) {
             MediaStore.Audio.Media.ARTIST,
             MediaStore.Audio.Media.ALBUM,
             MediaStore.Audio.Media.DURATION,
-            MediaStore.Audio.Media.MIME_TYPE,
             MediaStore.Audio.Media.ALBUM_ID
         )
 
         val songs = mutableListOf<AudioTrack>()
-        val uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
         val selection = "${MediaStore.Audio.Media.IS_MUSIC} != 0"
 
         try {
             context.contentResolver.query(
-                uri,
+                MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
                 projection,
                 selection,
                 null,
@@ -44,8 +42,6 @@ class LocalMusicRepository(private val context: Context) {
                     val album = cursor.getString(albumColumn) ?: "Unknown album"
                     val durationMs = cursor.getLong(durationColumn)
                     val albumId = cursor.getLong(albumIdColumn)
-                    val mediaUri = ContentUris.withAppendedId(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, id)
-                    val artUri = Uri.parse("content://media/external/audio/albumart/$albumId")
 
                     songs.add(
                         AudioTrack(
@@ -54,8 +50,8 @@ class LocalMusicRepository(private val context: Context) {
                             artist = artist,
                             album = album,
                             durationMs = durationMs,
-                            uri = mediaUri,
-                            artworkUri = artUri,
+                            uri = ContentUris.withAppendedId(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, id),
+                            artworkUri = Uri.parse("content://media/external/audio/albumart/$albumId"),
                             source = "Local library"
                         )
                     )

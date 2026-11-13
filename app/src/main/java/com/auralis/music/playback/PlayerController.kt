@@ -18,8 +18,7 @@ class PlayerController(context: Context) : AutoCloseable {
         queue = tracks
         if (tracks.isEmpty()) return
         currentIndex = startIndex.coerceIn(0, tracks.lastIndex)
-        val mediaItem = MediaItem.fromUri(tracks[currentIndex].uri)
-        player.setMediaItem(mediaItem)
+        player.setMediaItem(MediaItem.fromUri(tracks[currentIndex].uri))
         player.prepare()
     }
 
@@ -35,11 +34,11 @@ class PlayerController(context: Context) : AutoCloseable {
     fun pause() = player.pause()
     fun togglePlayPause() = if (player.isPlaying) player.pause() else player.play()
     fun seekTo(positionMs: Long) = player.seekTo(positionMs)
+
     fun next() {
         if (queue.isEmpty()) return
         currentIndex = ((currentIndex + 1) % queue.size).coerceIn(0, queue.lastIndex)
-        val item = queue[currentIndex]
-        player.setMediaItem(MediaItem.fromUri(item.uri))
+        player.setMediaItem(MediaItem.fromUri(queue[currentIndex].uri))
         player.prepare()
         player.play()
     }
@@ -47,8 +46,7 @@ class PlayerController(context: Context) : AutoCloseable {
     fun previous() {
         if (queue.isEmpty()) return
         currentIndex = ((currentIndex - 1 + queue.size) % queue.size).coerceIn(0, queue.lastIndex)
-        val item = queue[currentIndex]
-        player.setMediaItem(MediaItem.fromUri(item.uri))
+        player.setMediaItem(MediaItem.fromUri(queue[currentIndex].uri))
         player.prepare()
         player.play()
     }

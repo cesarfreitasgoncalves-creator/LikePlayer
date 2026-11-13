@@ -39,30 +39,20 @@ class SettingsRepository(private val context: Context) {
     }
 
     suspend fun setDarkMode(enabled: Boolean) {
-        context.dataStore.edit { prefs ->
-            prefs[Keys.darkMode] = enabled
-        }
+        context.dataStore.edit { prefs -> prefs[Keys.darkMode] = enabled }
     }
 
     suspend fun setAccentColor(colorHex: String) {
-        context.dataStore.edit { prefs ->
-            prefs[Keys.accentColorHex] = colorHex
-        }
+        context.dataStore.edit { prefs -> prefs[Keys.accentColorHex] = colorHex }
     }
 
     suspend fun setWallpaperUri(uri: String?) {
         context.dataStore.edit { prefs ->
-            if (uri == null) {
-                prefs.remove(Keys.wallpaperUri)
-            } else {
-                prefs[Keys.wallpaperUri] = uri
-            }
+            if (uri == null) prefs.remove(Keys.wallpaperUri) else prefs[Keys.wallpaperUri] = uri
         }
     }
 
     suspend fun setCardStyle(style: String) {
-        context.dataStore.edit { prefs ->
-            prefs[Keys.cardStyle] = style
-        }
+        context.dataStore.edit { prefs -> prefs[Keys.cardStyle] = style }
     }
 }

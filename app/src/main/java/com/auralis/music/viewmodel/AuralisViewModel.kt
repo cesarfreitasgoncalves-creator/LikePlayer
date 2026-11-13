@@ -58,7 +58,8 @@ class AuralisViewModel(application: Application) : AndroidViewModel(application)
     }
 
     fun togglePlayback() {
-        if (_uiState.value.currentTrack == null && _uiState.value.songs.isNotEmpty()) {
+        val currentTrack = _uiState.value.currentTrack
+        if (currentTrack == null && _uiState.value.songs.isNotEmpty()) {
             onTrackSelected(_uiState.value.songs.first())
             return
         }
@@ -84,18 +85,12 @@ class AuralisViewModel(application: Application) : AndroidViewModel(application)
 
     fun playNext() {
         playerController.next()
-        _uiState.update {
-            val nextTrack = playerController.currentTrack()
-            it.copy(currentTrack = nextTrack, isPlaying = true)
-        }
+        _uiState.update { it.copy(currentTrack = playerController.currentTrack(), isPlaying = true) }
     }
 
     fun playPrevious() {
         playerController.previous()
-        _uiState.update {
-            val previousTrack = playerController.currentTrack()
-            it.copy(currentTrack = previousTrack, isPlaying = true)
-        }
+        _uiState.update { it.copy(currentTrack = playerController.currentTrack(), isPlaying = true) }
     }
 
     fun seek(positionMs: Long) {

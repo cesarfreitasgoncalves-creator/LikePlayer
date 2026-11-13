@@ -2,8 +2,11 @@ package com.auralis.music.data
 
 import androidx.room.Dao
 import androidx.room.Entity
+import androidx.room.Insert
 import androidx.room.PrimaryKey
+import androidx.room.Query
 import androidx.room.TypeConverter
+import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 
 @Entity(tableName = "playlists")
@@ -25,11 +28,15 @@ class PlaylistTypeConverters {
 
 @Dao
 interface PlaylistDao {
+    @Query("SELECT * FROM playlists ORDER BY id DESC")
     fun getAllPlaylists(): Flow<List<PlaylistEntity>>
 
-    suspend fun insert(playlist: PlaylistEntity)
+    @Insert
+    suspend fun insert(playlist: PlaylistEntity): Long
 
+    @Update
     suspend fun update(playlist: PlaylistEntity)
 
-    suspend fun delete(playlist: PlaylistEntity)
+    @Query("DELETE FROM playlists WHERE id = :id")
+    suspend fun deleteById(id: Long)
 }
